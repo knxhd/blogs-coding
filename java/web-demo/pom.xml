@@ -6,7 +6,12 @@
 
     <groupId>org.example</groupId>
     <artifactId>web-demo</artifactId>
+    <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
+    <modules>
+        <module>juc</module>
+        <module>web</module>
+    </modules>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -45,17 +50,6 @@
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>
             <version>${fastjson_version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.asynchttpclient</groupId>
-            <artifactId>async-http-client</artifactId>
-            <version>2.12.3</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.squareup.okhttp3</groupId>
-            <artifactId>okhttp</artifactId>
-            <version>4.10.0</version>
         </dependency>
     </dependencies>
 
