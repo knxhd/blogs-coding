@@ -38,11 +38,12 @@ public class HttpStreamClient {
         DefaultMessageHandler defaultMessageHandler = new DefaultMessageHandler();
         HttpStreamClient httpStreamClient = new HttpStreamClient(defaultMessageHandler);
         RequestParam requestParam = RequestParam.builder()
-                .userId("tianluhua")
-                .source("CHAT_GPT")
-                .query("你好")
+                .userId("test_tianluhua_QWEN_VL")
+                .source("QWEN_VL")
+                .query("图一和图二有什么区别")
                 .stream(true)
+                .context(true)
                 .build();
-        httpStreamClient.sendMessage("http://127.0.0.1:8087/llm/invokeLlm", JSONObject.toJSONString(requestParam));
+        httpStreamClient.sendMessage("http://127.0.0.1:8089/llm-platform/api/packDesignGenerateResults/testSse", JSONObject.toJSONString(requestParam));
     }
 }

@@ -42,12 +42,17 @@ public class DefaultMessageHandler implements AsyncHandler<Response> {
         }
         // 剔除数据行的行开头"data: "
         String data = messageBody.replaceFirst("^data:", "");
+        System.out.println(data);
         if (data.length() > 0) {
-            Result result = JSONObject.parseObject(messageBody, Result.class);
-            if (result.getCode() == 200) {
-                System.out.println(String.format("大模型接收到消息：%s", result.getData()));
-            } else if (result.getCode() == -200) {
-                System.out.println(String.format("大模型接收消息结束：%s", result.getData()));
+            try {
+                Result result = JSONObject.parseObject(data, Result.class);
+                if (result.getCode() == 200) {
+//                    System.out.println(String.format("大模型接收到消息：%s", result.getData()));
+                } else if (result.getCode() == -200) {
+//                    System.out.println(String.format("大模型接收消息结束：%s", result.getData()));
+                }
+            } catch (Exception ignored) {
+
             }
         }
 
