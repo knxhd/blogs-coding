@@ -57,13 +57,15 @@ public class Demo {
         HttpHeaders requestHeaders = new HttpHeaders();
         requestHeaders.setAll(headerMap);
         RequestParam requestParam = RequestParam.builder()
-                .userId("tianluhua")
-                .source("CHAT_GPT")
+                .userId("test_tianluhua")
+                .stream(false)
+                .context(true)
+                .source("QWEN_MAX")
                 .query("你好")
                 .build();
 
         HttpEntity<Object> requestEntity = new HttpEntity<>(requestParam, requestHeaders);
-        Result result = restTemplate.postForObject("http://127.0.0.1:8087/llm/invokeLlm", requestEntity, Result.class);
+        Result result = restTemplate.postForObject("http://127.0.0.1:8087/llm/application/invokeLlm", requestEntity, Result.class);
         if (result.getCode() == 200) {
             System.out.println("大模型返回结果：" + result.getData());
         }
