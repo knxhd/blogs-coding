@@ -39,11 +39,11 @@ public class HttpStreamClient {
         HttpStreamClient httpStreamClient = new HttpStreamClient(defaultMessageHandler);
         RequestParam requestParam = RequestParam.builder()
                 .userId("test_tianluhua_QWEN_VL")
-                .source("QWEN_VL")
-                .query("图一和图二有什么区别")
+                .source("QWEN_MAX")
+                .query("成语接龙")
                 .stream(true)
                 .context(true)
                 .build();
-        httpStreamClient.sendMessage("http://127.0.0.1:8089/llm-platform/api/packDesignGenerateResults/testSse", JSONObject.toJSONString(requestParam));
+        httpStreamClient.sendMessage("http://127.0.0.1:8087/llm/application/invokeLlm", JSONObject.toJSONString(requestParam));
     }
 }
