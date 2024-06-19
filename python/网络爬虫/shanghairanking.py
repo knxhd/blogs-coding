@@ -2,10 +2,10 @@ import requests
 from lxml import html
 
 
-def getHtmlText(url):
+def getHtmlText(url, headers):
     try:
         cert_path = './CA.cer'
-        r = requests.get(url, timeout=60, verify=cert_path)
+        r = requests.get(url, timeout=60, verify=cert_path, headers=headers)
         r.encoding = 'utf-8'
         return r.text
     except:
@@ -14,22 +14,14 @@ def getHtmlText(url):
 
 def parseHTML(url):
     # 访问网站
-    text = getHtmlText(url)
-    print(text)
-
+    text = getHtmlText(url, {})
+    # print(text)
     htmlStr = html.etree.HTML(text)
     # 获取每行的大学数据
     trset = htmlStr.xpath('//table[@class="rk-table"]//tbody//tr')
     for tr in trset:
         # 中文名
         nameCn = tr.xpath('.//a[@class="name-cn"]//text()')[0].strip()
-        directUrl = 'https://www.shanghairanking.cn' + tr.xpath('.//a[@class="name-cn"]/@href')[0].strip()
-        detailHtmlText = getHtmlText(directUrl)
-
-        detailHtml = html.etree.HTML(detailHtmlText)
-        scoreBox = detailHtml.xpath('//div[@class="score-box"][0]')
-        print(scoreBox)
-
         # 英文名
         nameEn = tr.xpath('.//a[@class="name-en"]//text()')[0].strip()
         # 省份
