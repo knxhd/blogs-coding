@@ -63,3 +63,50 @@ pip install -r requirements.txt
 ```shell
 pip freeze > requirements.txt
 ```
+
+## 日志配置
+
+- processName：表示进程号，理论每个请求的进程号是不一样的，可以在请求入口设置，以此进行链路追踪。设置方式：
+
+  ```python
+      import multiprocessing
+      # 设置进程号，作为日志记录的前缀，方便做链路追踪
+      multiprocessing.current_process().name = data.userid
+  ```
+- 完整示例：
+
+```python-repl
+import logging
+from logging.handlers import TimedRotatingFileHandler
+import os
+
+logger = logging.getLogger('film_grain')
+logger.setLevel(logging.DEBUG)
+
+# 日志文件根目录
+PARENT_DIR = os.path.split(os.path.realpath(__file__))[0]
+
+# 日志目录
+LOGGING_DIR = "/home/logs/"
+if not os.path.exists(LOGGING_DIR):
+    os.mkdir(LOGGING_DIR)
+
+handlers = {
+    "info": TimedRotatingFileHandler(filename = LOGGING_DIR + "info.log", when = 'D', interval = 1, backupCount = 30),
+    "error": TimedRotatingFileHandler(filename = LOGGING_DIR + "error.log", when = 'D', interval = 1, backupCount = 30)
+}
+
+formatter = logging.Formatter("%(asctime)s [%(levelname)s] [%(processName)s] %(funcName)s - %(message)s")
+
+# 设置每个处理器的日志级别
+for level, handler in handlers.items():
+    handler.setLevel(getattr(logging, level.upper()))
+    handler.setFormatter(formatter)
+    logger.addHandler(handler)
+
+# 如果你想在控制台也看到日志
+console = logging.StreamHandler()
+console.setLevel(logging.DEBUG)
+console.setFormatter(formatter)
+logger.addHandler(console)
+```
